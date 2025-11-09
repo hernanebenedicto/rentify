@@ -20,6 +20,11 @@ body {
   list-style: none;
 }
 
+  .nav-links a{
+    text-decoration: none;
+    color: #fff;
+  }
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -133,7 +138,13 @@ body {
 
 .about {
   background: #e9ecef;
-  padding: 2rem;
+  padding: 20px;
+  text-align: center;
+}
+
+.contact{
+  background: #e9ecef;
+  padding: 20px;
   text-align: center;
 }
 

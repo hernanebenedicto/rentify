@@ -62,7 +62,7 @@ function Home() {
       <section id="contact" className="contact">
         <h2>Contact Us</h2>
         <p>
-          Email us at <strong>RENTify@gmail.com</strong> or call <strong>0912-345-6789</strong> for more questions
+          Email us at <strong>renify@gmail.com</strong> or call <strong>0912-345-6789</strong> for more questions
         </p>
       </section>
 
