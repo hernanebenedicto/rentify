@@ -196,11 +196,14 @@ body {
   margin: 0.5rem 0;
 }
 
-.modal input,
-.modal select {
-  width: 100%;
+
+.input{
+  width: 379px;
   padding:10px;
   margin-top: 0.5rem;
   border: 1px solid #cccccc;
   border-radius: 5px;
+}
+.modal label select {
+  width: 400px;
 }
