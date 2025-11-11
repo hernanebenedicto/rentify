@@ -48,6 +48,7 @@ function Home() {
             <p>₱200/day</p>
           </div>
         </div>
+        <button className="viewAllCars">View all available cars</button>
       </section>
 
       <section id="about" className="about">

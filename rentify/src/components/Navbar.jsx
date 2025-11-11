@@ -5,13 +5,6 @@ function Navbar() {
     <nav className="navbar">
       <h2 className="logo">Rentify</h2>
 
-      <ul className="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#cars">Cars</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-
       <div className="search-bar">
         <img
           src="/car/searchicon.png"
@@ -24,6 +17,13 @@ function Navbar() {
           className="search-input"
         />
       </div>
+      
+      <ul className="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#cars">Cars</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
   );
 }
