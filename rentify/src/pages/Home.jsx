@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import CarDetails from "../components/CarDetails";
+import BookForm from "../components/BookForm";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const [showModal, setShowModal] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showCarDetails, setShowCarDetails] = useState(false);
+  const [showBookForm, setShowBookForm] = useState(false);
 
   const cars = [
     { id: 1, name: "Hyundai Starex", price: "₱50/day", img: "/car/car1.png" },
@@ -12,21 +15,41 @@ function Home() {
     { id: 4, name: "Toyota Hiace", price: "₱200/day", img: "/car/Hiace.png" },
   ];
 
-  const handleOpen = (car) => {
-    setSelectedCar(car);
-    setShowModal(true);
-    setShowForm(false);
+  const navigate = useNavigate();
+
+  // Open booking form from hero button (no car pre-selected)
+  const handleBookNow = () => {
+    setSelectedCar(null);
+    setShowBookForm(true);
+    setShowCarDetails(false);
   };
 
-  const handleClose = () => {
-    setShowModal(false);
+  // Open car details modal when clicking "View" on a car card
+  const handleViewCar = (car) => {
+    setSelectedCar(car);
+    setShowCarDetails(true);
+    setShowBookForm(false);
+  };
+
+  // Close all modals
+  const handleCloseModals = () => {
+    setShowCarDetails(false);
+    setShowBookForm(false);
     setSelectedCar(null);
   };
 
+  // Switch from car details to booking form
+  const handleRentFromDetails = () => {
+    setShowCarDetails(false);
+    setShowBookForm(true);
+    // selectedCar remains set
+  };
+
+  // Handle booking form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Booking Sent");
-    setShowModal(false);
+    handleCloseModals();
   };
 
   return (
@@ -36,7 +59,7 @@ function Home() {
         <div className="hero-content">
           <h1>Find Your Perfect Ride</h1>
           <p>Rent the best cars at affordable prices — anytime, anywhere.</p>
-          <button className="hero-btn" onClick={() => handleOpen(null)}>
+          <button className="hero-btn" onClick={handleBookNow}>
             Book Now
           </button>
         </div>
@@ -51,11 +74,15 @@ function Home() {
               <img src={car.img} alt={car.name} />
               <h3>{car.name}</h3>
               <p>{car.price}</p>
-              <button className="hero-btn" onClick={() => handleOpen(car)}>View</button>
+              <button className="hero-btn" onClick={() => handleViewCar(car)}>
+                View
+              </button>
             </div>
           ))}
         </div>
-        <button className="hero-btn">View all available cars</button>
+        <button className="hero-btn" onClick={() => navigate("/cars")}>
+          View all available cars
+        </button>
       </section>
 
       {/* About Section */}
@@ -77,79 +104,22 @@ function Home() {
         </p>
       </section>
 
-      {/* Car Modal */}
-      {showModal && (
-        <div className="modalForm">
-          <div className="modal">
-            <button className="closeBtn" onClick={handleClose}>
-              X
-            </button>
+      {/* Modals */}
+      {showCarDetails && (
+        <CarDetails
+          car={selectedCar}
+          onClose={handleCloseModals}
+          onRent={handleRentFromDetails}
+        />
+      )}
 
-            {!showForm && selectedCar && (
-              <>
-                <h2>{selectedCar.name}</h2>
-                <img src={selectedCar.img} alt={selectedCar.name} width="100%" />
-                <p>Price: {selectedCar.price}</p>
-                <p>
-                  The {selectedCar.name} is a comfortable and reliable car,
-                  perfect for long drives or city rides.
-                </p>
-                <button
-                  className="hero-btn"
-                  onClick={() => setShowForm(true)}
-                >
-                  Rent This Car
-                </button>
-              </>
-            )}
-
-            {/* Booking Form Modal */}
-            {(!selectedCar || showForm) && (
-              <>
-                <h2>Book Your Car Now!!</h2>
-                <form onSubmit={handleSubmit}>
-                  <label>
-                    Full Name:
-                    <input className="input" type="text" required />
-                  </label>
-
-                  <label>
-                    Email:
-                    <input className="input" type="email" required />
-                  </label>
-
-                  <label>
-                    Car:
-                    <select className="input" required>
-                      <option value="">
-                        {selectedCar
-                          ? selectedCar.name
-                          : "Select your preferred car"}
-                      </option>
-                      {cars.map((car) => (
-                        <option key={car.id}>{car.name}</option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label>
-                    Pickup date:
-                    <input className="input" type="date" required />
-                  </label>
-
-                  <label>
-                    Return date:
-                    <input className="input" type="date" required />
-                  </label>
-
-                  <button type="submit" className="submitBtn">
-                    Submit
-                  </button>
-                </form>
-              </>
-            )}
-          </div>
-        </div>
+      {showBookForm && (
+        <BookForm
+          cars={cars}
+          selectedCar={selectedCar}
+          onSubmit={handleSubmit}
+          onClose={handleCloseModals}
+        />
       )}
     </div>
   );
